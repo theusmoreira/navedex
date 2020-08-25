@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { shade } from 'polished';
 
 export const Container = styled.div`
   height: 100vh;
@@ -23,6 +24,7 @@ export const Content = styled.div`
     span {
       font-size: 14px;
       font-weight: 600;
+      margin-bottom: 4px;
     }
 
     input {
@@ -47,6 +49,10 @@ export const Content = styled.div`
       font-size: 14px;
       font-weight: 600;
       border: 1px solid #424242;
+
+      &:hover {
+        background: ${shade(0.2, '#212121')};
+      }
     }
   }
 `;

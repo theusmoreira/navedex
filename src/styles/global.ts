@@ -21,7 +21,7 @@ export default createGlobalStyle`
     font-size: 14px;
   }
 
-  h1, h2, h3, h4, h5, h6, strong {
+  h1, h2, h3, h4, h5, h6, span {
     font-weight: 600;
   }
   button {

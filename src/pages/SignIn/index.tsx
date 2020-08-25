@@ -10,10 +10,10 @@ const SignIn: React.FC = () => {
         <img src={logoImg} alt="Navedex Logo" />
         <form>
           <span>E-mail</span>
-          <input id="email" type="text" placeholder="E-mail" />
+          <input type="text" placeholder="E-mail" />
 
           <span>Senha</span>
-          <input id="password" type="text" placeholder="Senha" />
+          <input type="text" placeholder="Senha" />
           <button type="submit">Entrar</button>
         </form>
       </Content>
