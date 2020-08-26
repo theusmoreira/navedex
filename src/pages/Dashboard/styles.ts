@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { shade } from 'polished';
 
 export const Container = styled.div`
   margin-top: 40px;
@@ -14,7 +15,9 @@ export const TitleHeader = styled.div`
     font-size: 40px;
   }
 
-  button {
+  a {
+    text-align: center;
+    text-decoration: none;
     width: 180px;
     height: 40px;
     padding: 8px 16px;
@@ -23,6 +26,10 @@ export const TitleHeader = styled.div`
     color: #fff;
     background: #212121;
     border: none;
+
+    &:hover {
+      background: ${shade(0.2, '#212121')};
+    }
   }
 `;
 

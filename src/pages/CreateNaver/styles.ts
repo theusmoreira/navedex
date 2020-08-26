@@ -43,25 +43,17 @@ export const Title = styled.div`
     margin-left: 10px;
   }
 
-  svg {
-    font-size: 24px;
-    color: #212121;
+  a {
+    display: flex;
+    align-items: center;
+    svg {
+      font-size: 24px;
+      color: #212121;
+    }
   }
 `;
 
 export const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
-
-  input {
-    height: 40px;
-    padding: 8px;
-    border: 1px solid #424242;
-    margin-top: 4px;
-
-    &::placeholder {
-      font-size: 16px;
-      color: #9e9e9e;
-    }
-  }
 `;
