@@ -1,52 +1,48 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core';
 import { useAuth } from '../../hooks/Auth';
+import Input from '../../components/Input';
 
 import { Container, Content } from './styles';
 import logoImg from '../../assets/logo.svg';
 
+interface SignInFormData {
+  email: string;
+  password: string;
+}
+
 const SignIn: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const formRef = useRef<FormHandles>(null);
   const history = useHistory();
 
   const { signIn } = useAuth();
 
   const handleSubmit = useCallback(
-    async e => {
-      e.preventDefault();
+    async (data: SignInFormData) => {
       await signIn({
-        emailPost: email,
-        password,
+        email: data.email,
+        password: data.password,
       });
-
+      formRef.current?.reset();
       history.push('/navers');
     },
-    [email, password, signIn, history],
+    [signIn, history],
   );
 
   return (
     <Container>
       <Content>
         <img src={logoImg} alt="Navedex Logo" />
-        <form onSubmit={handleSubmit}>
+        <Form ref={formRef} onSubmit={handleSubmit}>
           <span>E-mail</span>
-          <input
-            type="text"
-            placeholder="E-mail"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
+          <Input name="email" type="text" placeholder="E-mail" />
 
           <span>Senha</span>
-          <input
-            type="password"
-            placeholder="Senha"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-          />
+          <Input name="password" type="password" placeholder="Senha" />
           <button type="submit">Entrar</button>
-        </form>
+        </Form>
       </Content>
     </Container>
   );

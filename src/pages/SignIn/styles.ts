@@ -27,19 +27,6 @@ export const Content = styled.div`
       margin-bottom: 4px;
     }
 
-    input {
-      width: 100%;
-      height: 40px;
-      padding: 8px;
-      border: 1px solid #424242;
-      margin-bottom: 32px;
-
-      &::placeholder {
-        font-size: 16px;
-        color: #9e9e9e;
-      }
-    }
-
     button {
       width: 100%;
       height: 40px;
