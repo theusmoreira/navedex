@@ -12,6 +12,7 @@ export const Container = styled.div<ContainerProps>`
   margin-top: 4px;
   display: flex;
   align-items: center;
+  margin-bottom: 32px;
 
   ${props =>
     props.isFocused &&
