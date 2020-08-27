@@ -7,7 +7,7 @@ interface AuthState {
 }
 
 interface SignInCredentials {
-  emailPost: string;
+  email: string;
   password: string;
 }
 
@@ -30,18 +30,18 @@ const AuthProvider: React.FC = ({ children }) => {
     return {} as AuthState;
   });
 
-  const signIn = useCallback(async ({ emailPost, password }) => {
+  const signIn = useCallback(async ({ email, password }) => {
     const response = await api.post('users/login', {
-      email: emailPost,
+      email,
       password,
     });
 
-    const { token, email, id } = response.data;
+    const { token, email: emailResponse, id } = response.data;
 
     localStorage.setItem('@Navedex:token', token);
     localStorage.setItem(
       '@Navedex:user',
-      JSON.stringify({ user: { email, id } }),
+      JSON.stringify({ user: { emailResponse, id } }),
     );
 
     setData({ token, user: { email, id } });
