@@ -10,7 +10,7 @@ export const Container = styled.div`
     padding: 0 354px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 32px;
+    column-gap: 32px;
 
     button {
       margin-left: 135px;
