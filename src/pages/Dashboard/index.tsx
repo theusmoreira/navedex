@@ -72,6 +72,8 @@ const Dashboard: React.FC = () => {
         setOpenModal={toggleModalDetail}
       />
       <ModalDeleteNaver
+        data={navers}
+        setNaversInModal={setNavers}
         swicth={modalOpenDelete}
         setOpenModal={toggleModalDelete}
       />
