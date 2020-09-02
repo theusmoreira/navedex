@@ -45,10 +45,18 @@ export const NaverItem = styled.li`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  transition: all 0.2s ease-in-out;
 
-  img {
-    width: 280px;
-    height: 280px;
+  &:hover {
+    transform: scale(1.1);
+  }
+  button {
+    border: 0;
+
+    img {
+      width: 280px;
+      height: 280px;
+    }
   }
 
   span {
@@ -64,9 +72,15 @@ export const NaverItem = styled.li`
       background: transparent;
       border: none;
 
-      & + button {
-        margin-left: 8px;
+      svg {
+        color: #212121;
       }
+    }
+
+    a {
+      margin-left: 8px;
+      text-decoration: none;
+      color: #212121;
 
       svg {
         color: #212121;

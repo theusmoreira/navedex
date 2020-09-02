@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPen, FaTrash } from 'react-icons/fa';
 import { Container, TitleHeader, NaversList, NaverItem } from './styles';
+
 import Header from '../../components/Header';
+import ModalDetailsNaver from '../../components/ModalDetailsNaver';
+import ModalDeleteNaver from '../../components/ModalDeleteNaver';
 
 import api from '../../services/api';
 
-interface INavers {
+interface Naver {
   id: string;
   name: string;
   job_role: string;
@@ -14,8 +17,13 @@ interface INavers {
 }
 
 const Dashboard: React.FC = () => {
-  const [navers, setNavers] = useState<INavers[]>([]);
+  const [navers, setNavers] = useState<Naver[]>([]);
+
+  const [modalOpenDetail, setModalOpenDetail] = useState(false);
+  const [modalOpenDelete, setModalOpenDelete] = useState(false);
+
   const token = localStorage.getItem('@Navedex:token');
+
   useEffect(() => {
     api
       .get('navers', {
@@ -27,9 +35,46 @@ const Dashboard: React.FC = () => {
         setNavers(response.data);
       });
   }, [token]);
+
+  const toggleModalDetail = useCallback(() => {
+    setModalOpenDetail(!modalOpenDetail);
+  }, [modalOpenDetail]);
+
+  const toggleModalDelete = useCallback(() => {
+    setModalOpenDelete(!modalOpenDelete);
+  }, [modalOpenDelete]);
+
+  const handleOpenDeleteModal = useCallback(
+    (id: string) => {
+      localStorage.setItem('@Navedex:naver-id', id);
+      toggleModalDelete();
+    },
+    [toggleModalDelete],
+  );
+
+  const handleGetNaverDetail = useCallback(
+    (id: string) => {
+      localStorage.setItem('@Navedex:naver-id', id);
+      toggleModalDetail();
+    },
+    [toggleModalDetail],
+  );
+
+  const handleGetNaverId = useCallback((id: string) => {
+    localStorage.setItem('@Navedex:naver-id', id);
+  }, []);
+
   return (
     <>
       <Header />
+      <ModalDetailsNaver
+        swicth={modalOpenDetail}
+        setOpenModal={toggleModalDetail}
+      />
+      <ModalDeleteNaver
+        swicth={modalOpenDelete}
+        setOpenModal={toggleModalDelete}
+      />
       <Container>
         <TitleHeader>
           <h1>Navers</h1>
@@ -38,16 +83,29 @@ const Dashboard: React.FC = () => {
         <NaversList>
           {navers.map(naver => (
             <NaverItem key={naver.id}>
-              <img src={naver.url} alt={naver.name} />
+              <button
+                onClick={() => handleGetNaverDetail(naver.id)}
+                type="button"
+              >
+                <img src={naver.url} alt={naver.name} />
+              </button>
               <span>{naver.name}</span>
               <p>{naver.job_role}</p>
               <div>
-                <button type="submit">
+                <button
+                  onClick={() => handleOpenDeleteModal(naver.id)}
+                  type="button"
+                >
                   <FaTrash />
                 </button>
-                <button type="submit">
-                  <FaPen />
-                </button>
+                <Link to="/update-naver">
+                  <button
+                    onClick={() => handleGetNaverId(naver.id)}
+                    type="button"
+                  >
+                    <FaPen />
+                  </button>
+                </Link>
               </div>
             </NaverItem>
           ))}
