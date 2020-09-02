@@ -7,7 +7,7 @@ import { Container, Title, InputGroup } from './styles';
 
 import Input from '../../components/Input';
 import Header from '../../components/Header';
-import ModalMessage from '../../components/ModalMessage';
+import Modal from '../../components/Modal';
 
 import api from '../../services/api';
 
@@ -45,9 +45,9 @@ const CreateNaver: React.FC = () => {
   return (
     <Container>
       <Header />
-      <ModalMessage
+      <Modal
         title="Naver criado"
-        message="Naver Criado com sucesso!"
+        message="Naver criado com sucesso!"
         swicth={modalOpen}
         setOpenModal={toggleModal}
       />
