@@ -48,9 +48,7 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@Navedex:token');
-    localStorage.removeItem('@Navedex:user');
-
+    localStorage.clear();
     setData({} as AuthState);
   }, []);
 
