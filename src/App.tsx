@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { AuthProvider } from './hooks/Auth';
+import AppProvider from './hooks';
 
 import GlobalStyles from './styles/global';
 import Routes from './routes';
@@ -9,10 +9,10 @@ import Routes from './routes';
 const App: React.FC = () => {
   return (
     <Router>
-      <AuthProvider>
+      <AppProvider>
         <Routes />
         <GlobalStyles />
-      </AuthProvider>
+      </AppProvider>
     </Router>
   );
 };

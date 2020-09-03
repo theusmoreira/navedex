@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import Modal from '../Modal';
 
 import { Container, Message, ButtonsActions } from './styles';
-import api from '../../services/api';
+import { useNaver } from '../../hooks/Navers';
 
 interface Naver {
   id: string;
@@ -12,32 +12,38 @@ interface Naver {
 }
 
 interface ModalProps {
-  data: Naver[];
-  setNaversInModal(value: React.SetStateAction<Naver[]>): void;
   swicth: boolean;
   setOpenModal(): void;
 }
-const ModalDeleteNaver: React.FC<ModalProps> = ({
-  setOpenModal,
-  swicth,
-  data,
-  setNaversInModal,
-}) => {
+const ModalDeleteNaver: React.FC<ModalProps> = ({ setOpenModal, swicth }) => {
+  const [modalOpenMessage, setModalOpenMessage] = useState(false);
+  const { deleteNaver } = useNaver();
   const id = localStorage.getItem('@Navedex:naver-id');
-  const token = localStorage.getItem('@Navedex:token');
+
+  const toggleModalMessage = useCallback(() => {
+    setModalOpenMessage(!modalOpenMessage);
+  }, [modalOpenMessage]);
+
+  const handleOpenMessageModal = useCallback(() => {
+    toggleModalMessage();
+  }, [toggleModalMessage]);
 
   const handleDeleteNaver = useCallback(() => {
-    api.delete(`navers/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setNaversInModal(data.filter(naver => naver.id !== id));
-    setOpenModal();
-  }, [id, token, setOpenModal, data, setNaversInModal]);
+    if (id) {
+      deleteNaver(id);
+      setOpenModal();
+      handleOpenMessageModal();
+    }
+  }, [id, deleteNaver, setOpenModal, handleOpenMessageModal]);
 
   return (
     <Modal setOpenModal={setOpenModal} swicth={swicth}>
+      <Modal
+        swicth={modalOpenMessage}
+        setOpenModal={toggleModalMessage}
+        title="Naver excluído"
+        message="Naver excluído com sucesso!"
+      />
       <Container>
         <Message>
           <h2>Excluir Naver</h2>

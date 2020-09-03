@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FaPen, FaTrash, FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 import Modal from '../Modal';
+import ModalDeleteNaver from '../ModalDeleteNaver';
 import { Container, Content, ButtonsActions, ButtonClose } from './styles';
 
-import api from '../../services/api';
-import formatedDate from '../../utils/formatedDate';
+import { useNaver } from '../../hooks/Navers';
 
 interface NaverDetailData {
   job_role: string;
@@ -27,25 +27,29 @@ const ModalDetailsNaver: React.FC<ModalDetailProps> = ({
   swicth,
 }) => {
   const [naver, setNaver] = useState<NaverDetailData>({} as NaverDetailData);
-  const token = localStorage.getItem('@Navedex:token');
+
+  const { showNaver } = useNaver();
+  const [modalOpenDelete, setModalOpenDelete] = useState(false);
 
   const naverId = localStorage.getItem('@Navedex:naver-id');
 
   useEffect(() => {
     async function loadNaver(): Promise<void> {
-      const response = await api.get<NaverDetailData>(`navers/${naverId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setNaver({
-        ...response.data,
-        admission_date: formatedDate(response.data.admission_date),
-        birthdate: formatedDate(response.data.birthdate),
-      });
+      if (naverId) {
+        const naverShow = await showNaver(naverId);
+        setNaver(naverShow);
+      }
     }
     loadNaver();
-  }, [token, naverId]);
+  }, [naverId, showNaver]);
+
+  const toggleModalDelete = useCallback(() => {
+    setModalOpenDelete(!modalOpenDelete);
+  }, [modalOpenDelete]);
+
+  const handleOpenDeleteModal = useCallback(() => {
+    toggleModalDelete();
+  }, [toggleModalDelete]);
 
   return (
     <Modal
@@ -53,6 +57,10 @@ const ModalDetailsNaver: React.FC<ModalDetailProps> = ({
       swicth={swicth}
       stylesCustomizable={{ padding: '0', width: '1006px' }}
     >
+      <ModalDeleteNaver
+        swicth={modalOpenDelete}
+        setOpenModal={toggleModalDelete}
+      />
       <Container>
         <img src={naver.url} alt={naver.name} />
         <Content>
@@ -71,7 +79,7 @@ const ModalDetailsNaver: React.FC<ModalDetailProps> = ({
           <strong>Projetos que participou</strong>
           <p>{naver.project}</p>
           <ButtonsActions>
-            <button onClick={() => {}} type="button">
+            <button onClick={() => handleOpenDeleteModal()} type="button">
               <FaTrash />
             </button>
             <Link to="/update-naver">

@@ -70,7 +70,7 @@ const CreateNaver: React.FC = () => {
         </InputGroup>
         <InputGroup>
           <span>Idade</span>
-          <Input name="birthdate" placeholder="Idade" type="text" />
+          <Input name="birthdate" placeholder="Idade" type="date" />
         </InputGroup>
 
         <InputGroup>

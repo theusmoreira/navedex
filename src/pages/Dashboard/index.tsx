@@ -7,7 +7,7 @@ import Header from '../../components/Header';
 import ModalDetailsNaver from '../../components/ModalDetailsNaver';
 import ModalDeleteNaver from '../../components/ModalDeleteNaver';
 
-import api from '../../services/api';
+import { useNaver } from '../../hooks/Navers';
 
 interface Naver {
   id: string;
@@ -17,24 +17,14 @@ interface Naver {
 }
 
 const Dashboard: React.FC = () => {
-  const [navers, setNavers] = useState<Naver[]>([]);
+  const { navers, getNavers } = useNaver();
 
   const [modalOpenDetail, setModalOpenDetail] = useState(false);
   const [modalOpenDelete, setModalOpenDelete] = useState(false);
 
-  const token = localStorage.getItem('@Navedex:token');
-
   useEffect(() => {
-    api
-      .get('navers', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(response => {
-        setNavers(response.data);
-      });
-  }, [token]);
+    getNavers();
+  }, [getNavers]);
 
   const toggleModalDetail = useCallback(() => {
     setModalOpenDetail(!modalOpenDetail);
@@ -72,8 +62,6 @@ const Dashboard: React.FC = () => {
         setOpenModal={toggleModalDetail}
       />
       <ModalDeleteNaver
-        data={navers}
-        setNaversInModal={setNavers}
         swicth={modalOpenDelete}
         setOpenModal={toggleModalDelete}
       />
