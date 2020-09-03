@@ -37,7 +37,7 @@ export const NaversList = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   list-style: none;
-  padding: 32px 0 32px 32px;
+  padding: 32px;
   grid-gap: 32px;
 `;
 
